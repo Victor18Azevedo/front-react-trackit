@@ -4,6 +4,7 @@ export const darkAccentColor = "#126BA5";
 export const textColor = "#666666";
 export const lightTextColor = "#BABABA";
 export const inputColor = "#DBDBDB";
+export const inputDisabledColor = "#F2F2F2";
 export const weekColor = "#CFCFCF";
 export const goalColor = "#8FC549";
 

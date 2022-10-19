@@ -5,8 +5,10 @@ import { inputColor, weekColor } from "../../constants/colors";
 export default function Week() {
   return (
     <ContainerWeek>
-      {DAYS.map((day) => (
-        <div className="box-day">{day}</div>
+      {DAYS.map((day, index) => (
+        <div key={index} className="box-day">
+          {day}
+        </div>
       ))}
     </ContainerWeek>
   );

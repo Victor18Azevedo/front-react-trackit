@@ -3,13 +3,19 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/logo.png";
 import { accentColor } from "../../constants/colors";
+import axios from "axios";
+import { BASE_URL } from "../../constants/urls";
+import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     email: "",
-    password: "",
     name: "",
-    picture: "",
+    image: "",
+    password: "",
   });
 
   function handleForm(e) {
@@ -19,14 +25,44 @@ export default function RegisterPage() {
 
   function register(e) {
     e.preventDefault();
-    // axios.post(`${BASE_URL}/seats/book-many`, body)
-    //     .then(res => {
-    //         setSuccessInfo(info)
-    //         setSelectedSeats([])
-    //         navigate("/sucesso")
-    //     })
-    //     .catch(err => alert(err.response.data))
+    setIsLoading(true);
+    const body = { ...form };
+    console.log(body);
+    axios
+      .post(`${BASE_URL}/auth/sign-up`, body)
+      .then((res) => {
+        console.log(res);
+        setForm({
+          email: "",
+          name: "",
+          image: "",
+          password: "",
+        });
+        setIsLoading(false);
+        navigate("/");
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+        setIsLoading(false);
+      });
   }
+
+  const renderButtonLabel = function () {
+    return isLoading ? (
+      <ThreeDots
+        height="60"
+        width="60"
+        radius="7"
+        color="#FFF"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+      />
+    ) : (
+      "Cadastro"
+    );
+  };
 
   return (
     <ContainerRegister>
@@ -38,6 +74,8 @@ export default function RegisterPage() {
           onChange={handleForm}
           type="email"
           placeholder="email"
+          disabled={isLoading}
+          required
         ></input>
         <input
           name="password"
@@ -45,6 +83,8 @@ export default function RegisterPage() {
           onChange={handleForm}
           type="password"
           placeholder="senha"
+          disabled={isLoading}
+          required
         ></input>
         <input
           name="name"
@@ -52,15 +92,21 @@ export default function RegisterPage() {
           onChange={handleForm}
           placeholder="nome"
           type="text"
+          disabled={isLoading}
+          required
         ></input>
         <input
-          name="picture"
+          name="image"
           value={form.picture}
           onChange={handleForm}
           type="url"
           placeholder="foto"
+          disabled={isLoading}
+          required
         ></input>
-        <input className="btn" type="submit" value="Cadastrar"></input>
+        <button className="btn" type="submit" disabled={isLoading}>
+          {renderButtonLabel()}
+        </button>
       </Form>
       <Link to="/">
         <p className="text-accent">Já tem uma conta? Faça login!</p>

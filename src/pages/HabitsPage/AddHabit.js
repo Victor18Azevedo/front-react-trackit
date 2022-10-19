@@ -2,20 +2,20 @@ import styled from "styled-components";
 import { accentColor } from "../../constants/colors";
 import Week from "./Week";
 
-export default function NewHabit() {
+export default function AddHabit() {
   return (
-    <ContainerNewHabit>
-      <input name="newHabit" type={"text"} placeholder="nome do hábito"></input>
+    <ContainerAddHabit>
+      <input name="addHabit" type={"text"} placeholder="nome do hábito"></input>
       <Week />
       <div className="box-buttons">
         <button className="btn btn-cancel">Cancelar</button>
         <button className="btn btn-save">Salvar</button>
       </div>
-    </ContainerNewHabit>
+    </ContainerAddHabit>
   );
 }
 
-const ContainerNewHabit = styled.div`
+const ContainerAddHabit = styled.div`
   width: 100%;
   padding: 18px;
   background-color: #fff;

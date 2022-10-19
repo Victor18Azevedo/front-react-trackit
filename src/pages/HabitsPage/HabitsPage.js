@@ -1,26 +1,60 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
-import NewHabit from "./NewHabit";
+import AddHabit from "./AddHabit";
 import Habits from "./Habits";
 import { baseColor } from "../../constants/colors";
+import UserContext from "../../contexts/UserContext";
+import { useContext, useEffect, useState } from "react";
+import { BASE_URL } from "../../constants/urls";
+import axios from "axios";
 
 export default function HabitsPage() {
+  const { userData } = useContext(UserContext);
+  const [habits, setHabits] = useState([]);
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    };
+    axios
+      .get(`${BASE_URL}/habits`, config)
+      .then((res) => {
+        console.log(res.data);
+        setHabits([...res.data]);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, [userData]);
+
+  const renderAddHabit = function () {};
+
+  const renderHabits = function () {
+    return habits.length > 1 ? (
+      <Habits />
+    ) : (
+      <p>
+        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+        começar a trackear!
+      </p>
+    );
+  };
+
   return (
     <ContainerHabitsPage>
       <Header />
       <MainHabits>
         <MyHabits>
           <h2>Meus hábitos</h2>
-          <button className="btn btn-add">+</button>
+          <button className="btn btn-add" onClick={renderAddHabit}>
+            +
+          </button>
         </MyHabits>
-        <NewHabit />
-        <p>
-          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-          começar a trackear!
-        </p>
-        <Habits />
-        <Habits />
+        <AddHabit />
+        {renderHabits()}
       </MainHabits>
       <Menu />
     </ContainerHabitsPage>

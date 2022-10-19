@@ -4,6 +4,7 @@ import {
   inputColor,
   textColor,
   darkAccentColor,
+  inputDisabledColor,
 } from "../../constants/colors";
 
 const GlobalStyle = createGlobalStyle`
@@ -89,8 +90,8 @@ input {
 	display: flex;
 	align-items: center;
 	margin: 6px 0;
-	&::-webkit-input-placeholder{
-		color: ${inputColor};
+	&:disabled{
+		background-color: ${inputDisabledColor};
 	}
 }
 h2{
@@ -103,6 +104,18 @@ p {
 	font-size: 18px;
 	line-height: 22px;
   }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	-webkit-text-fill-color: ${textColor};
+}
 `;
 
 export default GlobalStyle;

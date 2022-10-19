@@ -5,6 +5,12 @@ import TodayHabit from "./TodayHabit";
 import { baseColor, lightTextColor, goalColor } from "../../constants/colors";
 
 export default function TodayPage() {
+  // useEffect(() => {
+  //   return () => {
+  //     second;
+  //   };
+  // }, [third]);
+
   return (
     <ContainerTodayPage>
       <Header />
