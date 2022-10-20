@@ -9,15 +9,7 @@ import {
   dayBorderColorNotSelected,
 } from "../../constants/colors";
 
-export default function Week({ habitDays, setHabitDays }) {
-  const handleDay = function (dayNumber) {
-    if (!habitDays.includes(dayNumber)) {
-      setHabitDays([...habitDays, dayNumber].sort());
-    } else {
-      setHabitDays(habitDays.filter((d) => d !== dayNumber));
-    }
-  };
-
+export default function WeekHabit({ habitDays }) {
   const isSelected = function (dayNumber) {
     if (habitDays) {
       return habitDays.includes(dayNumber) ? true : false;
@@ -28,11 +20,7 @@ export default function Week({ habitDays, setHabitDays }) {
   return (
     <ContainerWeek>
       {DAYS.map((day, index) => (
-        <Day
-          key={index}
-          onClick={() => handleDay(index)}
-          styleIsSelected={isSelected(index)}
-        >
+        <Day key={index} styleIsSelected={isSelected(index)}>
           {day}
         </Day>
       ))}
@@ -63,7 +51,4 @@ const Day = styled.div`
         ? dayBorderColorSelected
         : dayBorderColorNotSelected};
   border-radius: 5px;
-  &:hover {
-    cursor: pointer;
-  }
 `;

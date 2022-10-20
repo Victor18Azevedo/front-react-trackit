@@ -76,6 +76,9 @@ a{
 	&:disabled {
 		opacity: 0.7;
 	}
+	&:hover {
+		cursor: pointer;
+	}
 }
 input {
 	width: 303px;

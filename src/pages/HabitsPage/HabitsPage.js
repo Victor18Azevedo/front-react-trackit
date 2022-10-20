@@ -12,6 +12,7 @@ import axios from "axios";
 export default function HabitsPage() {
   const { userData } = useContext(UserContext);
   const [habits, setHabits] = useState([]);
+  const [addHabit, setAddHabit] = useState(false);
 
   useEffect(() => {
     const config = {
@@ -22,19 +23,26 @@ export default function HabitsPage() {
     axios
       .get(`${BASE_URL}/habits`, config)
       .then((res) => {
-        console.log(res.data);
         setHabits([...res.data]);
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [userData]);
+  }, []);
 
-  const renderAddHabit = function () {};
+  const renderAddHabit = function () {
+    return addHabit ? (
+      <AddHabit
+        setAddHabit={setAddHabit}
+        habits={habits}
+        setHabits={setHabits}
+      />
+    ) : null;
+  };
 
   const renderHabits = function () {
-    return habits.length > 1 ? (
-      <Habits />
+    return habits.length > 0 ? (
+      <Habits habits={habits} setHabits={setHabits} />
     ) : (
       <p>
         Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
@@ -49,11 +57,11 @@ export default function HabitsPage() {
       <MainHabits>
         <MyHabits>
           <h2>Meus hábitos</h2>
-          <button className="btn btn-add" onClick={renderAddHabit}>
+          <button className="btn btn-add" onClick={() => setAddHabit(true)}>
             +
           </button>
         </MyHabits>
-        <AddHabit />
+        {renderAddHabit()}
         {renderHabits()}
       </MainHabits>
       <Menu />

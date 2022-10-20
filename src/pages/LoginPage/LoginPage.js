@@ -23,18 +23,15 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     const body = { ...form };
-    console.log(body);
     axios
       .post(`${BASE_URL}/auth/login`, body)
       .then((res) => {
-        console.log(res.data);
         setUserData({ ...res.data });
         setForm({ email: "", password: "" });
         setIsLoading(false);
         navigate("/hoje");
       })
       .catch((err) => {
-        console.log(err.response);
         alert(err.response.data.message);
         setIsLoading(false);
       });
