@@ -7,10 +7,15 @@ import axios from "axios";
 import { BASE_URL } from "../../constants/urls";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function AddHabit({ setAddHabit, habits, setHabits }) {
+export default function AddHabit({
+  setAddHabit,
+  refreshHabits,
+  habitText,
+  setHabitText,
+  habitDays,
+  setHabitDays,
+}) {
   const { userData } = useContext(UserContext);
-  const [habitText, setHabitText] = useState("");
-  const [habitDays, setHabitDays] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const postHabit = function () {
@@ -27,13 +32,15 @@ export default function AddHabit({ setAddHabit, habits, setHabits }) {
     axios
       .post(`${BASE_URL}/habits`, body, config)
       .then((res) => {
-        setHabits([...habits, res.data]);
+        setHabitText("");
+        setHabitDays([]);
         setAddHabit(false);
         setIsLoading(false);
+        refreshHabits();
       })
       .catch((err) => {
-        console.log(err.response.data);
         setIsLoading(false);
+        alert(err.response.data.message);
       });
   };
 
@@ -62,13 +69,26 @@ export default function AddHabit({ setAddHabit, habits, setHabits }) {
         onChange={(e) => setHabitText(e.target.value)}
         type={"text"}
         placeholder="nome do hábito"
+        disabled={isLoading}
       ></input>
-      <Week habitDays={habitDays} setHabitDays={setHabitDays} />
+      <Week
+        habitDays={habitDays}
+        setHabitDays={setHabitDays}
+        isLoading={isLoading}
+      />
       <div className="box-buttons">
-        <button className="btn btn-cancel" onClick={() => setAddHabit(false)}>
+        <button
+          className="btn btn-cancel"
+          onClick={() => setAddHabit(false)}
+          disabled={isLoading}
+        >
           Cancelar
         </button>
-        <button className="btn btn-save" onClick={postHabit}>
+        <button
+          className="btn btn-save"
+          onClick={postHabit}
+          disabled={isLoading}
+        >
           {renderButtonLabel()}
         </button>
       </div>

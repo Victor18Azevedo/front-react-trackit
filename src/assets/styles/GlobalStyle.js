@@ -60,6 +60,9 @@ a{
 * {
 	box-sizing: border-box;
 }
+button{
+	font-family: 'Lexend Deca', sans-serif;
+}
 .btn {
 	width: 303px;
 	height: 45px;

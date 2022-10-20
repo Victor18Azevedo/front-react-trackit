@@ -6,7 +6,7 @@ import UserContext from "../../contexts/UserContext";
 import { useContext } from "react";
 import { BASE_URL } from "../../constants/urls";
 
-export default function Habits({ habits, setHabits }) {
+export default function Habits({ habits, refreshHabits }) {
   const { userData } = useContext(UserContext);
 
   const deleteHabit = function (id) {
@@ -18,11 +18,11 @@ export default function Habits({ habits, setHabits }) {
     axios
       .delete(`${BASE_URL}/habits/${id}`, config)
       .then((res) => {
-        setHabits(habits.filter((habit) => habit.id !== id));
-        // console.log(res);
+        refreshHabits();
       })
       .catch((err) => {
-        console.log(err.response.data);
+        alert(err.response.data);
+        console.log(err.response);
       });
   };
   return (
@@ -31,7 +31,12 @@ export default function Habits({ habits, setHabits }) {
         <BoxHabit key={habit.id}>
           <p>{habit.name}</p>
           <WeekHabit habitDays={habit.days} />
-          <StyledGarbageIcon onClick={() => deleteHabit(habit.id)} />
+          <StyledGarbageIcon
+            onClick={() => {
+              if (window.confirm("Deseja realmende apagar item?"))
+                deleteHabit(habit.id);
+            }}
+          />
         </BoxHabit>
       ))}
     </ContainerHabits>
@@ -43,7 +48,6 @@ const ContainerHabits = styled.div``;
 const BoxHabit = styled.div`
   width: 100%;
   padding: 13px 15px;
-  padding-right: 35px;
   margin-bottom: 10px;
   background-color: #fff;
   font-size: 20px;
@@ -52,6 +56,7 @@ const BoxHabit = styled.div`
   position: relative;
   word-wrap: break-word;
   p {
+    padding-right: 30px;
     margin-bottom: 8px;
   }
 `;
@@ -60,7 +65,7 @@ const StyledGarbageIcon = styled(GarbageIcon)`
   position: absolute;
   top: 13px;
   right: 15px;
-  height: 16px;
+  height: 18px;
   path {
     fill: currentColor;
     stroke-width: 48;

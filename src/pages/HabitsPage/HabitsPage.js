@@ -14,7 +14,13 @@ export default function HabitsPage() {
   const [habits, setHabits] = useState([]);
   const [addHabit, setAddHabit] = useState(false);
 
+  const [habitText, setHabitText] = useState("");
+  const [habitDays, setHabitDays] = useState([]);
   useEffect(() => {
+    refreshHabits();
+  }, []);
+
+  const refreshHabits = function () {
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
@@ -26,23 +32,31 @@ export default function HabitsPage() {
         setHabits([...res.data]);
       })
       .catch((err) => {
+        // alert(err.response.data)
         console.log(err.response.data);
       });
-  }, []);
+  };
 
   const renderAddHabit = function () {
     return addHabit ? (
       <AddHabit
         setAddHabit={setAddHabit}
-        habits={habits}
-        setHabits={setHabits}
+        refreshHabits={refreshHabits}
+        habitText={habitText}
+        setHabitText={setHabitText}
+        habitDays={habitDays}
+        setHabitDays={setHabitDays}
       />
     ) : null;
   };
 
   const renderHabits = function () {
     return habits.length > 0 ? (
-      <Habits habits={habits} setHabits={setHabits} />
+      <Habits
+        habits={habits}
+        setHabits={setHabits}
+        refreshHabits={refreshHabits}
+      />
     ) : (
       <p>
         Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para

@@ -9,7 +9,7 @@ import {
   dayBorderColorNotSelected,
 } from "../../constants/colors";
 
-export default function Week({ habitDays, setHabitDays }) {
+export default function Week({ habitDays, setHabitDays, isLoading }) {
   const handleDay = function (dayNumber) {
     if (!habitDays.includes(dayNumber)) {
       setHabitDays([...habitDays, dayNumber].sort());
@@ -32,6 +32,7 @@ export default function Week({ habitDays, setHabitDays }) {
           key={index}
           onClick={() => handleDay(index)}
           styleIsSelected={isSelected(index)}
+          disabled={isLoading}
         >
           {day}
         </Day>
@@ -47,11 +48,10 @@ const ContainerWeek = styled.div`
   gap: 4px;
 `;
 
-const Day = styled.div`
+const Day = styled.button`
   width: 30px;
   height: 30px;
   font-size: 20px;
-  line-height: 28px;
   text-align: center;
   color: ${(props) =>
     props.styleIsSelected ? dayTextColorSelected : dayTextColorNotSelected};
