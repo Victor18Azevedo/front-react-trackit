@@ -18,7 +18,7 @@ function App() {
     password: "",
     token: "",
   });
-  const [progress, setProgress] = useState(33);
+  const [progress, setProgress] = useState(50);
   return (
     <BrowserRouter>
       <GlobalStyle />

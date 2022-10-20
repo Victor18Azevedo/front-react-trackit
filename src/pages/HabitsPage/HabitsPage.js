@@ -52,6 +52,7 @@ export default function HabitsPage() {
 
   const renderHabits = function () {
     return habits.length > 0 ? (
+      // TODO: refact do .map in this component
       <Habits
         habits={habits}
         setHabits={setHabits}
