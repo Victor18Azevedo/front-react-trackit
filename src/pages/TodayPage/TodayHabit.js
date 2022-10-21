@@ -6,14 +6,12 @@ import { goalColor } from "../../constants/colors";
 import { BASE_URL } from "../../constants/urls";
 import UserContext from "../../contexts/UserContext";
 
-export default function TodayHabit({ habit }) {
+export default function TodayHabit({ habit, refreshPage }) {
   const { userData } = useContext(UserContext);
   const [isDone, setIsDone] = useState(habit.done);
 
   const handleCheck = function () {
-    const newIsDone = isDone;
-    setIsDone(!newIsDone);
-
+    setIsDone(!habit.done);
     const body = {};
     const config = {
       headers: {
@@ -21,12 +19,13 @@ export default function TodayHabit({ habit }) {
       },
     };
     const URL = `${BASE_URL}/habits/${habit.id}/${
-      newIsDone ? "uncheck" : "check"
+      habit.done ? "uncheck" : "check"
     }`;
     axios
       .post(URL, body, config)
       .then((res) => {
-        console.log(res);
+        refreshPage();
+        // console.log(res);
       })
       .catch((err) => {
         alert(err.response.data.message);
@@ -49,7 +48,7 @@ export default function TodayHabit({ habit }) {
         <p className="habit-name">{habit.name}</p>
         <p className="goal-text">
           Sequência atual:{" "}
-          <span className={isDone ? "goal-accent" : ""}>
+          <span className={habit.done ? "goal-accent" : ""}>
             {habit.currentSequence} dias
           </span>
         </p>
@@ -88,7 +87,7 @@ const ContainerTodayHabit = styled.div`
   }
 `;
 
-const CheckBox = styled.div`
+const CheckBox = styled.button`
   width: 69px;
   height: 69px;
   // TODO: change colors using dictionary. put conde in component

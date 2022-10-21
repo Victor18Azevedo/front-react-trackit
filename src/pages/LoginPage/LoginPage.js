@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/logo.png";
@@ -9,10 +9,18 @@ import { ThreeDots } from "react-loader-spinner";
 import UserContext from "../../contexts/UserContext";
 
 export default function LoginPage() {
-  const { setUserData } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { localUser, setUserData } = useContext(UserContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localUser) {
+      navigate("/hoje");
+    }
+  }, []);
 
   function handleForm(e) {
     const { name, value } = e.target;
@@ -27,6 +35,7 @@ export default function LoginPage() {
       .post(`${BASE_URL}/auth/login`, body)
       .then((res) => {
         setUserData({ ...res.data });
+        localStorage.setItem("localUser", JSON.stringify(res.data));
         setForm({ email: "", password: "" });
         setIsLoading(false);
         navigate("/hoje");

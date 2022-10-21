@@ -62,6 +62,9 @@ a{
 }
 button{
 	font-family: 'Lexend Deca', sans-serif;
+	&:hover {
+		cursor: pointer;
+	}
 }
 .btn {
 	width: 303px;

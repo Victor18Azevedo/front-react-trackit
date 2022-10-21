@@ -8,14 +8,16 @@ import UserContext from "../../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import { BASE_URL } from "../../constants/urls";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function HabitsPage() {
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData, localUser } = useContext(UserContext);
   const [habits, setHabits] = useState([]);
   const [addHabit, setAddHabit] = useState(false);
 
   const [habitText, setHabitText] = useState("");
   const [habitDays, setHabitDays] = useState([]);
+
   useEffect(() => {
     refreshHabits();
   }, []);
@@ -23,7 +25,7 @@ export default function HabitsPage() {
   const refreshHabits = function () {
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${localUser.token}`,
       },
     };
     axios

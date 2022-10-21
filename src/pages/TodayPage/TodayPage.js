@@ -10,9 +10,10 @@ import axios from "axios";
 import ProgressContext from "../../contexts/ProgressContext";
 import dayjs from "dayjs";
 import { WEEK_DAYS_NAME } from "../../constants/weekDays";
+import { useNavigate } from "react-router-dom";
 
 export default function TodayPage() {
-  const { userData } = useContext(UserContext);
+  const { userData, localUser } = useContext(UserContext);
   const { progress, setProgress } = useContext(ProgressContext);
   const [habitsToday, setHabitsToday] = useState([]);
 
@@ -20,35 +21,36 @@ export default function TodayPage() {
   const monthDay = dayjs().date();
   const month = dayjs().month() + 1;
 
-  // TODO:  bug 100%
-  const refreshProgress = function () {
-    const habitsDone = habitsToday.filter((h) => h.done).length;
-    if (habitsToday.length > 0) {
-      setProgress((habitsDone / habitsToday.length) * 100);
-    } else {
-      setProgress(0);
-    }
-  };
   useEffect(() => {
-    refreshProgress();
-  }, [habitsToday]);
+    refreshPage();
+  }, []);
 
-  useEffect(() => {
+  const refreshPage = function () {
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${localUser.token}`,
       },
     };
     axios
       .get(`${BASE_URL}/habits/today`, config)
       .then((res) => {
         setHabitsToday([...res.data]);
+        refreshProgress(res.data);
       })
       .catch((err) => {
         alert(err.response.data.message);
         console.log(err.response.data);
       });
-  }, []);
+  };
+
+  const refreshProgress = function (habits) {
+    const habitsDone = habits.filter((h) => h.done).length;
+    if (habits.length > 0) {
+      setProgress(parseInt((habitsDone / habits.length) * 100));
+    } else {
+      setProgress(0);
+    }
+  };
 
   const renderInfo = function () {
     return habitsToday.length > 0 ? (
@@ -57,8 +59,6 @@ export default function TodayPage() {
       <p className="habits-goal--no">Nenhum hábito concluído ainda</p>
     );
   };
-
-  // console.log(habitsToday);
 
   return (
     <ContainerTodayPage>
@@ -71,7 +71,7 @@ export default function TodayPage() {
           {renderInfo()}
         </BoxDay>
         {habitsToday.map((h) => (
-          <TodayHabit key={h.id} habit={h} />
+          <TodayHabit key={h.id} habit={h} refreshPage={refreshPage} />
         ))}
       </MainToday>
       <Menu />

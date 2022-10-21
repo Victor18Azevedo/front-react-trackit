@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
@@ -18,11 +18,20 @@ function App() {
     password: "",
     token: "",
   });
-  const [progress, setProgress] = useState(50);
+  const [progress, setProgress] = useState(0);
+
+  const localUser = JSON.parse(localStorage.getItem("localUser"));
+
+  useEffect(() => {
+    if (localUser) {
+      setUserData(localUser);
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <UserContext.Provider value={{ userData, setUserData }}>
+      <UserContext.Provider value={{ userData, setUserData, localUser }}>
         <ProgressContext.Provider value={{ progress, setProgress }}>
           <Routes>
             <Route path="/" element={<LoginPage />} />;
