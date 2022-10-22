@@ -8,7 +8,7 @@ import UserContext from "../../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import { BASE_URL } from "../../constants/urls";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 export default function HabitsPage() {
   const { userData, setUserData, localUser } = useContext(UserContext);
@@ -17,6 +17,8 @@ export default function HabitsPage() {
 
   const [habitText, setHabitText] = useState("");
   const [habitDays, setHabitDays] = useState([]);
+
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
 
   useEffect(() => {
     refreshHabits();
@@ -32,10 +34,11 @@ export default function HabitsPage() {
       .get(`${BASE_URL}/habits`, config)
       .then((res) => {
         setHabits([...res.data]);
+        setIsLoadingPage(false);
       })
       .catch((err) => {
-        // alert(err.response.data)
-        console.log(err.response.data);
+        alert(err.response.data);
+        console.log(err.response);
       });
   };
 
@@ -53,19 +56,21 @@ export default function HabitsPage() {
   };
 
   const renderHabits = function () {
-    return habits.length > 0 ? (
-      // TODO: refact do .map in this component
-      <Habits
-        habits={habits}
-        setHabits={setHabits}
-        refreshHabits={refreshHabits}
-      />
-    ) : (
-      <p>
-        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-        começar a trackear!
-      </p>
-    );
+    if (isLoadingPage) return <Loading />;
+    else
+      return habits.length > 0 ? (
+        // TODO: refact do .map in this component
+        <Habits
+          habits={habits}
+          setHabits={setHabits}
+          refreshHabits={refreshHabits}
+        />
+      ) : (
+        <p>
+          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+          começar a trackear!
+        </p>
+      );
   };
 
   return (

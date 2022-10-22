@@ -9,10 +9,12 @@ import dayjs from "dayjs";
 import UserContext from "../../contexts/UserContext";
 import { BASE_URL } from "../../constants/urls";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 export default function HistoryPage() {
   const { localUser } = useContext(UserContext);
   const [value, setValue] = useState(new Date());
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [history, setHistory] = useState([]);
   const [progressPerDay, setProgressPerDay] = useState([]);
   const habitsDays = useRef([]);
@@ -34,10 +36,12 @@ export default function HistoryPage() {
       const newProgressPerDay = calcProgress(history);
       setProgressPerDay([...newProgressPerDay]);
       habitsDays.current = newProgressPerDay.map((d) => d.day);
+      setIsLoadingPage(false);
     }
   }, [history]);
 
   useEffect(() => {
+    setIsLoadingPage(true);
     const config = {
       headers: {
         Authorization: `Bearer ${localUser.token}`,
@@ -79,15 +83,19 @@ export default function HistoryPage() {
           <h2>Histórico</h2>
         </div>
         <div>
-          <Calendar
-            className="calendar"
-            onChange={onChange}
-            value={value}
-            minDate={new Date(2020, 0)}
-            maxDate={new Date(2029, 0)}
-            minDetail={"year"}
-            tileClassName={tileClassName}
-          />
+          {isLoadingPage ? (
+            <Loading />
+          ) : (
+            <Calendar
+              className="calendar"
+              onChange={onChange}
+              value={value}
+              minDate={new Date(2020, 0)}
+              maxDate={new Date(2029, 0)}
+              minDetail={"year"}
+              tileClassName={tileClassName}
+            />
+          )}
         </div>
       </MainHistory>
       <Menu />
@@ -114,7 +122,6 @@ const MainHistory = styled.main`
     border-radius: 10px;
     box-shadow: 0 5px 10px #333;
   }
-
   .complete {
     background-color: #8cc654;
     color: #111;

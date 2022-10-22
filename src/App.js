@@ -28,8 +28,6 @@ function App() {
     }
   }, []);
 
-  console.log("App");
-
   return (
     <BrowserRouter>
       <GlobalStyle />

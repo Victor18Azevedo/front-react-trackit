@@ -10,12 +10,13 @@ import axios from "axios";
 import ProgressContext from "../../contexts/ProgressContext";
 import dayjs from "dayjs";
 import { WEEK_DAYS_NAME } from "../../constants/weekDays";
-import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 export default function TodayPage() {
   const { userData, localUser } = useContext(UserContext);
   const { progress, setProgress } = useContext(ProgressContext);
   const [habitsToday, setHabitsToday] = useState([]);
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
 
   const weekDayName = WEEK_DAYS_NAME[dayjs().day()];
   const monthDay = dayjs().date();
@@ -36,6 +37,7 @@ export default function TodayPage() {
       .then((res) => {
         setHabitsToday([...res.data]);
         refreshProgress(res.data);
+        setIsLoadingPage(false);
       })
       .catch((err) => {
         alert(err.response.data.message);
@@ -53,11 +55,21 @@ export default function TodayPage() {
   };
 
   const renderInfo = function () {
-    return habitsToday.length > 0 ? (
-      <p className="habits-goal">{progress}% dos hábitos concluídos</p>
-    ) : (
-      <p className="habits-goal--no">Nenhum hábito concluído ainda</p>
-    );
+    if (!isLoadingPage) {
+      return habitsToday.length > 0 ? (
+        <p className="habits-goal">{progress}% dos hábitos concluídos</p>
+      ) : (
+        <p className="habits-goal--no">Nenhum hábito concluído ainda</p>
+      );
+    } else return null;
+  };
+
+  const renderLoadingOrNot = function () {
+    if (isLoadingPage) return <Loading />;
+    else
+      return habitsToday.map((h) => (
+        <TodayHabit key={h.id} habit={h} refreshPage={refreshPage} />
+      ));
   };
 
   return (
@@ -70,9 +82,7 @@ export default function TodayPage() {
           </h2>
           {renderInfo()}
         </BoxDay>
-        {habitsToday.map((h) => (
-          <TodayHabit key={h.id} habit={h} refreshPage={refreshPage} />
-        ))}
+        {renderLoadingOrNot()}
       </MainToday>
       <Menu />
     </ContainerTodayPage>
