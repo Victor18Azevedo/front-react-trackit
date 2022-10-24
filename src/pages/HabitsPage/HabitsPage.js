@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import AddHabit from "./AddHabit";
+import CreateHabitCard from "./CreateHabitCard";
 import Habits from "./Habits";
 import { baseColor } from "../../constants/colors";
 import UserContext from "../../contexts/UserContext";
@@ -12,8 +12,8 @@ import Loading from "../../components/Loading";
 
 export default function HabitsPage() {
   const { userData } = useContext(UserContext);
-  const [habits, setHabits] = useState([]);
-  const [addHabit, setAddHabit] = useState(false);
+  const [habitsList, setHabitsList] = useState([]);
+  const [createHabit, setCreateHabit] = useState(false);
 
   const [habitText, setHabitText] = useState("");
   const [habitDays, setHabitDays] = useState([]);
@@ -28,7 +28,7 @@ export default function HabitsPage() {
     axios
       .get(`${BASE_URL}/habits`, userData.requestConfig)
       .then((res) => {
-        setHabits([...res.data]);
+        setHabitsList([...res.data]);
         setIsLoadingPage(false);
       })
       .catch((err) => {
@@ -37,10 +37,10 @@ export default function HabitsPage() {
       });
   };
 
-  const renderAddHabit = function () {
-    return addHabit ? (
-      <AddHabit
-        setAddHabit={setAddHabit}
+  const renderCreateHabitCard = function () {
+    return createHabit ? (
+      <CreateHabitCard
+        setCreateHabit={setCreateHabit}
         refreshHabits={refreshHabits}
         habitText={habitText}
         setHabitText={setHabitText}
@@ -53,11 +53,11 @@ export default function HabitsPage() {
   const renderHabits = function () {
     if (isLoadingPage) return <Loading />;
     else
-      return habits.length > 0 ? (
+      return habitsList.length > 0 ? (
         // TODO: refact do .map in this component
         <Habits
-          habits={habits}
-          setHabits={setHabits}
+          habitsList={habitsList}
+          setHabitsList={setHabitsList}
           refreshHabits={refreshHabits}
         />
       ) : (
@@ -72,17 +72,17 @@ export default function HabitsPage() {
     <ContainerHabitsPage>
       <Header />
       <MainHabits>
-        <MyHabits>
+        <TopMyHabits>
           <h2>Meus hábitos</h2>
           <button
             className="btn btn-add"
-            onClick={() => setAddHabit(true)}
+            onClick={() => setCreateHabit(true)}
             data-identifier="create-habit-btn"
           >
             +
           </button>
-        </MyHabits>
-        {renderAddHabit()}
+        </TopMyHabits>
+        {renderCreateHabitCard()}
         {renderHabits()}
       </MainHabits>
       <Footer />
@@ -105,7 +105,7 @@ const MainHabits = styled.main`
   overflow-y: auto;
 `;
 
-const MyHabits = styled.div`
+const TopMyHabits = styled.div`
   margin: 22px 0 20px;
   display: flex;
   align-items: center;

@@ -1,12 +1,16 @@
-import axios from "axios";
+import UserContext from "../../contexts/UserContext";
+import { BASE_URL } from "../../constants/urls";
+import {
+  sequenceTextColor,
+  checkColors,
+  uncheckColors,
+} from "../../constants/colors";
+import { ReactComponent as CheckIcon } from "../../assets/images/check.svg";
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as CheckIcon } from "../../assets/images/check.svg";
-import { goalColor } from "../../constants/colors";
-import { BASE_URL } from "../../constants/urls";
-import UserContext from "../../contexts/UserContext";
+import axios from "axios";
 
-export default function TodayHabit({ habit, refreshPage }) {
+export default function HabitTodayCard({ habit, refreshPage }) {
   const { userData } = useContext(UserContext);
   const [isDone, setIsDone] = useState(habit.done);
 
@@ -27,12 +31,12 @@ export default function TodayHabit({ habit, refreshPage }) {
       });
   };
 
-  const checkRecordAccent = function () {
+  const checkSequenceAccent = function () {
     if (
       (habit.highestSequence !== 0) &
       (habit.currentSequence === habit.highestSequence)
     ) {
-      return "goal-accent";
+      return "sequence-accent";
     }
     return "";
   };
@@ -41,15 +45,15 @@ export default function TodayHabit({ habit, refreshPage }) {
     <ContainerTodayHabit>
       <div className="box-text" data-identifier="today-infos">
         <p className="habit-name">{habit.name}</p>
-        <p className="goal-text">
+        <p className="sequence-text">
           Sequência atual:{" "}
-          <span className={habit.done ? "goal-accent" : ""}>
+          <span className={habit.done ? "sequence-accent" : ""}>
             {habit.currentSequence} dias
           </span>
         </p>
-        <p className="goal-text">
+        <p className="sequence-text">
           Seu recorde:{" "}
-          <span className={checkRecordAccent()}>
+          <span className={checkSequenceAccent()}>
             {habit.highestSequence} dias
           </span>
         </p>
@@ -81,21 +85,23 @@ const ContainerTodayHabit = styled.div`
     word-wrap: break-all;
     line-height: 25px;
   }
-  .goal-text {
+  .sequence-text {
     font-size: 13px;
     line-height: 16px;
   }
-  .goal-accent {
-    color: ${goalColor};
+  .sequence-accent {
+    color: ${sequenceTextColor};
   }
 `;
 
 const CheckBox = styled.button`
   width: 69px;
   height: 69px;
-  // TODO: change colors using dictionary. put conde in component
-  background-color: ${(props) => (props.styleIsDone ? "#8FC549" : "#EBEBEB")};
-  border: 1px solid ${(props) => (props.styleIsDone ? "#8FC549" : "#E7E7E7")};
+  background-color: ${(props) =>
+    props.styleIsDone ? checkColors.background : uncheckColors.background};
+  border: 1px solid
+    ${(props) =>
+      props.styleIsDone ? checkColors.border : uncheckColors.border};
   border-radius: 5px;
   align-self: flex-end;
   flex-shrink: 0;

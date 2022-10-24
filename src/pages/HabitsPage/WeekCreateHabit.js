@@ -9,7 +9,11 @@ import {
   dayBorderColorNotSelected,
 } from "../../constants/colors";
 
-export default function Week({ habitDays, setHabitDays, isLoading }) {
+export default function WeekCreateHabit({
+  habitDays,
+  setHabitDays,
+  isLoading,
+}) {
   const handleDay = function (dayNumber) {
     if (!habitDays.includes(dayNumber)) {
       setHabitDays([...habitDays, dayNumber].sort());

@@ -18,7 +18,7 @@ function App() {
   });
 
   useEffect(() => {
-    if (localUser) {
+    if (!userData.isLogged) {
       setUserData({
         ...localUser,
       });
@@ -26,8 +26,6 @@ function App() {
   }, []);
 
   const [progress, setProgress] = useState(0);
-
-  console.log("App");
 
   return (
     <BrowserRouter>

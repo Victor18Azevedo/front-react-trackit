@@ -6,7 +6,7 @@ import UserContext from "../../contexts/UserContext";
 import { useContext } from "react";
 import { BASE_URL } from "../../constants/urls";
 
-export default function Habits({ habits, refreshHabits }) {
+export default function Habits({ habitsList, refreshHabits }) {
   const { userData } = useContext(UserContext);
 
   const deleteHabit = function (id) {
@@ -22,8 +22,8 @@ export default function Habits({ habits, refreshHabits }) {
   };
   return (
     <ContainerHabits>
-      {habits.map((habit) => (
-        <BoxHabit key={habit.id}>
+      {habitsList.map((habit) => (
+        <HabitCard key={habit.id}>
           <p data-identifier="habit-name">{habit.name}</p>
           <WeekHabit habitDays={habit.days} />
           <StyledGarbageIcon
@@ -33,7 +33,7 @@ export default function Habits({ habits, refreshHabits }) {
             }}
             data-identifier="delete-habit-btn"
           />
-        </BoxHabit>
+        </HabitCard>
       ))}
     </ContainerHabits>
   );
@@ -41,7 +41,7 @@ export default function Habits({ habits, refreshHabits }) {
 
 const ContainerHabits = styled.div``;
 
-const BoxHabit = styled.div`
+const HabitCard = styled.div`
   width: 100%;
   padding: 13px 15px;
   margin-bottom: 10px;

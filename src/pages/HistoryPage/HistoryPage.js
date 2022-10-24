@@ -32,14 +32,6 @@ export default function HistoryPage() {
   };
 
   useEffect(() => {
-    if (history.length > 0) {
-      const newProgressPerDay = calcProgress(history);
-      setProgressPerDay([...newProgressPerDay]);
-      habitsDays.current = newProgressPerDay.map((d) => d.day);
-    }
-  }, [history]);
-
-  useEffect(() => {
     setIsLoadingPage(true);
     axios
       .get(`${BASE_URL}/habits/history/daily`, userData.requestConfig)
@@ -48,10 +40,18 @@ export default function HistoryPage() {
         setIsLoadingPage(false);
       })
       .catch((err) => {
-        alert(err.response.data);
+        alert(err.response.data.message);
         console.log(err.response);
       });
   }, []);
+
+  useEffect(() => {
+    if (history.length > 0) {
+      const newProgressPerDay = calcProgress(history);
+      setProgressPerDay([...newProgressPerDay]);
+      habitsDays.current = newProgressPerDay.map((d) => d.day);
+    }
+  }, [history]);
 
   function onChange(nextValue) {
     setValue(nextValue);
@@ -74,10 +74,10 @@ export default function HistoryPage() {
     <ContainerHistoryPage>
       <Header />
       <MainHistory>
-        <div className="box-title">
+        <TopHistory>
           <h2>Histórico</h2>
-        </div>
-        <section>
+        </TopHistory>
+        <div>
           {isLoadingPage ? (
             <Loading />
           ) : (
@@ -91,7 +91,7 @@ export default function HistoryPage() {
               tileClassName={tileClassName}
             />
           )}
-        </section>
+        </div>
       </MainHistory>
       <Footer />
     </ContainerHistoryPage>
@@ -110,11 +110,8 @@ const MainHistory = styled.main`
   background-color: ${baseColor};
   padding: 70px 19px 95px;
   overflow-y: auto;
-  .box-title {
-    margin: 22px 0 20px;
-  }
   .calendar {
-    margin: 10vh auto 0;
+    margin: 5vh auto 0;
     border: none;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
@@ -131,4 +128,8 @@ const MainHistory = styled.main`
     color: #111;
     border-radius: 50%;
   }
+`;
+
+const TopHistory = styled.div`
+  margin: 22px 0 20px;
 `;

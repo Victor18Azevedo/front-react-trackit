@@ -1,25 +1,28 @@
-import styled from "styled-components";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import TodayHabit from "./TodayHabit";
-import { baseColor, lightTextColor, goalColor } from "../../constants/colors";
-import { useEffect, useState, useContext } from "react";
-import UserContext from "../../contexts/UserContext";
-import { BASE_URL } from "../../constants/urls";
-import axios from "axios";
-import ProgressContext from "../../contexts/ProgressContext";
-import dayjs from "dayjs";
-import { WEEK_DAYS_NAME } from "../../constants/weekDays";
 import Loading from "../../components/Loading";
+import HabitTodayCard from "./HabitTodayCard";
+import UserContext from "../../contexts/UserContext";
+import ProgressContext from "../../contexts/ProgressContext";
+import { BASE_URL } from "../../constants/urls";
+import { useEffect, useState, useContext } from "react";
+import {
+  baseColor,
+  lightTextColor,
+  sequenceTextColor,
+} from "../../constants/colors";
+import axios from "axios";
+import dayjs from "dayjs";
+import styled from "styled-components";
 import "dayjs/locale/pt-br";
 
 export default function TodayPage() {
   const { userData } = useContext(UserContext);
   const { progress, setProgress } = useContext(ProgressContext);
-  const [habitsToday, setHabitsToday] = useState([]);
+  const [habitsTodayList, setHabitsTodayList] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-  const weekDayName = dayjs().locale("pt-br").format("dddd");
+  const weekDayName = dayjs().locale("pt-br").format("dddd").split("-")[0];
   const monthDay = dayjs().date();
   const month = dayjs().month() + 1;
 
@@ -31,7 +34,7 @@ export default function TodayPage() {
     axios
       .get(`${BASE_URL}/habits/today`, userData.requestConfig)
       .then((res) => {
-        setHabitsToday([...res.data]);
+        setHabitsTodayList([...res.data]);
         refreshProgress(res.data);
         setIsLoadingPage(false);
       })
@@ -50,25 +53,25 @@ export default function TodayPage() {
     }
   };
 
-  const renderInfo = function () {
+  const renderProgressInfo = function () {
     if (!isLoadingPage) {
-      return habitsToday.length > 0 ? (
-        <p className="habits-goal" data-identifier="today-infos">
+      return habitsTodayList.length > 0 ? (
+        <p className="habits-progress" data-identifier="today-infos">
           {progress}% dos hábitos concluídos
         </p>
       ) : (
-        <p className="habits-goal--no" data-identifier="today-infos">
+        <p className="habits-progress--not" data-identifier="today-infos">
           Nenhum hábito concluído ainda
         </p>
       );
     } else return null;
   };
 
-  const renderLoadingOrNot = function () {
+  const renderTodayHabitList = function () {
     if (isLoadingPage) return <Loading />;
     else
-      return habitsToday.map((h) => (
-        <TodayHabit key={h.id} habit={h} refreshPage={refreshPage} />
+      return habitsTodayList.map((h) => (
+        <HabitTodayCard key={h.id} habit={h} refreshPage={refreshPage} />
       ));
   };
 
@@ -76,13 +79,13 @@ export default function TodayPage() {
     <ContainerTodayPage>
       <Header />
       <MainToday>
-        <BoxDay>
+        <TopToday>
           <h2 data-identifier="today-infos">
             {weekDayName}, {monthDay}/{month}
           </h2>
-          {renderInfo()}
-        </BoxDay>
-        {renderLoadingOrNot()}
+          {renderProgressInfo()}
+        </TopToday>
+        {renderTodayHabitList()}
       </MainToday>
       <Footer />
     </ContainerTodayPage>
@@ -106,12 +109,12 @@ const MainToday = styled.main`
   }
 `;
 
-const BoxDay = styled.div`
+const TopToday = styled.div`
   margin: 22px 0 20px;
-  .habits-goal--no {
+  .habits-progress--not {
     color: ${lightTextColor};
   }
-  .habits-goal {
-    color: ${goalColor};
+  .habits-progress {
+    color: ${sequenceTextColor};
   }
 `;

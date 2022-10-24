@@ -35,11 +35,9 @@ export default function RegisterPage() {
     e.preventDefault();
     setIsLoading(true);
     const body = { ...form };
-    console.log(body);
     axios
       .post(`${BASE_URL}/auth/sign-up`, body)
       .then((res) => {
-        console.log(res);
         setForm({
           email: "",
           name: "",

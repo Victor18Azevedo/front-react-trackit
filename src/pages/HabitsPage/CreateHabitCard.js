@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import { accentColor } from "../../constants/colors";
-import Week from "./Week";
+import Week from "./WeekCreateHabit";
 import UserContext from "../../contexts/UserContext";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../constants/urls";
 import { ThreeDots } from "react-loader-spinner";
+import WeekCreateHabit from "./WeekCreateHabit";
 
-export default function AddHabit({
-  setAddHabit,
+export default function CreateHabitCard({
+  setCreateHabit,
   refreshHabits,
   habitText,
   setHabitText,
@@ -29,7 +30,7 @@ export default function AddHabit({
       .then((res) => {
         setHabitText("");
         setHabitDays([]);
-        setAddHabit(false);
+        setCreateHabit(false);
         setIsLoading(false);
         refreshHabits();
       })
@@ -57,7 +58,7 @@ export default function AddHabit({
   };
 
   return (
-    <ContainerAddHabit>
+    <ContainerCreateHabit>
       <input
         name="habitText"
         value={habitText}
@@ -67,7 +68,7 @@ export default function AddHabit({
         disabled={isLoading}
         data-identifier="input-habit-name"
       ></input>
-      <Week
+      <WeekCreateHabit
         habitDays={habitDays}
         setHabitDays={setHabitDays}
         isLoading={isLoading}
@@ -75,7 +76,7 @@ export default function AddHabit({
       <div className="box-buttons">
         <button
           className="btn btn-cancel"
-          onClick={() => setAddHabit(false)}
+          onClick={() => setCreateHabit(false)}
           disabled={isLoading}
           data-identifier="cancel-habit-create-btn"
         >
@@ -90,11 +91,11 @@ export default function AddHabit({
           {renderButtonLabel()}
         </button>
       </div>
-    </ContainerAddHabit>
+    </ContainerCreateHabit>
   );
 }
 
-const ContainerAddHabit = styled.div`
+const ContainerCreateHabit = styled.div`
   width: 100%;
   padding: 18px;
   background-color: #fff;
