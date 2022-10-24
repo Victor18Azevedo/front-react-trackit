@@ -6,12 +6,12 @@ import UserContext from "../../contexts/UserContext";
 import { useContext } from "react";
 import { BASE_URL } from "../../constants/urls";
 
-export default function Habits({ habitsList, refreshHabits }) {
+export default function HabitCard({ habit, refreshHabits }) {
   const { userData } = useContext(UserContext);
 
-  const deleteHabit = function (id) {
+  const deleteHabit = function () {
     axios
-      .delete(`${BASE_URL}/habits/${id}`, userData.requestConfig)
+      .delete(`${BASE_URL}/habits/${habit.id}`, userData.requestConfig)
       .then((res) => {
         refreshHabits();
       })
@@ -21,27 +21,19 @@ export default function Habits({ habitsList, refreshHabits }) {
       });
   };
   return (
-    <ContainerHabits>
-      {habitsList.map((habit) => (
-        <HabitCard key={habit.id}>
-          <p data-identifier="habit-name">{habit.name}</p>
-          <WeekHabit habitDays={habit.days} />
-          <StyledGarbageIcon
-            onClick={() => {
-              if (window.confirm("Deseja realmende apagar item?"))
-                deleteHabit(habit.id);
-            }}
-            data-identifier="delete-habit-btn"
-          />
-        </HabitCard>
-      ))}
-    </ContainerHabits>
+    <ContainerHabitCard>
+      <p data-identifier="habit-name">{habit.name}</p>
+      <WeekHabit habitDays={habit.days} />
+      <StyledGarbageIcon
+        onClick={() => {
+          if (window.confirm("Deseja realmende apagar item?")) deleteHabit();
+        }}
+        data-identifier="delete-habit-btn"
+      />
+    </ContainerHabitCard>
   );
 }
-
-const ContainerHabits = styled.div``;
-
-const HabitCard = styled.div`
+const ContainerHabitCard = styled.div`
   width: 100%;
   padding: 13px 15px;
   margin-bottom: 10px;

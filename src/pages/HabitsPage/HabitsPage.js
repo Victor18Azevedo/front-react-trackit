@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import CreateHabitCard from "./CreateHabitCard";
-import Habits from "./Habits";
+import HabitCard from "./HabitCard";
 import { baseColor } from "../../constants/colors";
 import UserContext from "../../contexts/UserContext";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -50,16 +50,17 @@ export default function HabitsPage() {
     ) : null;
   };
 
-  const renderHabits = function () {
+  const renderHabitsCards = function () {
     if (isLoadingPage) return <Loading />;
     else
       return habitsList.length > 0 ? (
-        // TODO: refact do .map in this component
-        <Habits
-          habitsList={habitsList}
-          setHabitsList={setHabitsList}
-          refreshHabits={refreshHabits}
-        />
+        habitsList.map((habit) => (
+          <HabitCard
+            key={habit.id}
+            habit={habit}
+            refreshHabits={refreshHabits}
+          />
+        ))
       ) : (
         <p data-identifier="no-habit-message">
           Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
@@ -83,7 +84,7 @@ export default function HabitsPage() {
           </button>
         </TopMyHabits>
         {renderCreateHabitCard()}
-        {renderHabits()}
+        {renderHabitsCards()}
       </MainHabits>
       <Footer />
       {/* <Footer ref={footerRef} /> */}

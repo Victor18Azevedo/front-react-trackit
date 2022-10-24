@@ -67,7 +67,7 @@ export default function TodayPage() {
     } else return null;
   };
 
-  const renderTodayHabitList = function () {
+  const renderTodayHabitCards = function () {
     if (isLoadingPage) return <Loading />;
     else
       return habitsTodayList.map((h) => (
@@ -85,7 +85,7 @@ export default function TodayPage() {
           </h2>
           {renderProgressInfo()}
         </TopToday>
-        {renderTodayHabitList()}
+        {renderTodayHabitCards()}
       </MainToday>
       <Footer />
     </ContainerTodayPage>
