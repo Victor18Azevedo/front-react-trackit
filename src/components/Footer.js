@@ -6,68 +6,68 @@ import { Link } from "react-router-dom";
 import ProgressContext from "../contexts/ProgressContext";
 import { useContext } from "react";
 
-export default function Menu() {
+export default function Footer() {
   const { progress } = useContext(ProgressContext);
 
   return (
-    <ContainerMenu>
-      <div className="menu-side-itens">
+    <ContainerFooter>
+      <nav className="nav-items">
         <Link to="/habitos" data-identifier="habit-page-action">
-          <div className="item-side">Hábitos</div>
+          <div className="item">Hábitos</div>
         </Link>
-        <div className="item-center">
-          <Link to="/hoje">
-            <CircularProgressbar
-              value={progress}
-              text={`Hoje`}
-              strokeWidth={5}
-              background
-              backgroundPadding={6}
-              styles={buildStyles({
-                backgroundColor: accentColor,
-                textColor: "#fff",
-                pathColor: "#fff",
-                trailColor: "transparent",
-              })}
-            />
-          </Link>
-        </div>
+        <Link to="/hoje" className="item--center">
+          <CircularProgressbar
+            value={progress}
+            text={`Hoje`}
+            strokeWidth={5}
+            background
+            backgroundPadding={6}
+            styles={buildStyles({
+              backgroundColor: accentColor,
+              textColor: "#fff",
+              pathColor: "#fff",
+              trailColor: "transparent",
+            })}
+          />
+        </Link>
         <Link to="/historico" data-identifier="historic-page-action">
-          <div className="item-side">Histórico</div>
+          <div className="item">Histórico</div>
         </Link>
-      </div>
-    </ContainerMenu>
+      </nav>
+    </ContainerFooter>
   );
 }
 
-const ContainerMenu = styled.div`
+const ContainerFooter = styled.footer`
   width: 100vw;
   height: 70px;
   max-width: 600px;
   background-color: #fff;
-  padding: 0 36px;
+  padding: 0 18px;
   position: absolute;
-  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
   bottom: 0;
   left: 0;
   z-index: 1;
-  .menu-side-itens {
+  .nav-items {
     height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .item-side {
+    position: relative;
+    .item {
       font-size: 18px;
       color: ${accentColor};
       padding: 15px;
     }
-    /* TODO: position relative */
-    .item-center {
-      width: 91px;
-      height: 91px;
+    .item--center {
+      width: 90px;
+      height: 90px;
       text-align: center;
-      transform: translate(0, -25%);
-      flex-shrink: 0;
+      position: absolute;
+      left: 50%;
+      translate: -50%;
+      top: -25px;
     }
     .CircularProgressbar-text {
       font-size: 18px;

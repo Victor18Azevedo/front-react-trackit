@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
-import Menu from "../../components/Menu";
+import Footer from "../../components/Footer";
 import AddHabit from "./AddHabit";
 import Habits from "./Habits";
 import { baseColor } from "../../constants/colors";
@@ -90,7 +90,7 @@ export default function HabitsPage() {
         {renderAddHabit()}
         {renderHabits()}
       </MainHabits>
-      <Menu />
+      <Footer />
     </ContainerHabitsPage>
   );
 }

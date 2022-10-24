@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
-import Menu from "../../components/Menu";
+import Footer from "../../components/Footer";
 import TodayHabit from "./TodayHabit";
 import { baseColor, lightTextColor, goalColor } from "../../constants/colors";
 import { useEffect, useState, useContext } from "react";
@@ -89,7 +89,7 @@ export default function TodayPage() {
         </BoxDay>
         {renderLoadingOrNot()}
       </MainToday>
-      <Menu />
+      <Footer />
     </ContainerTodayPage>
   );
 }

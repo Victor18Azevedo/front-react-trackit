@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
-import Menu from "../../components/Menu";
+import Footer from "../../components/Footer";
 import { baseColor } from "../../constants/colors";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
@@ -98,7 +98,7 @@ export default function HistoryPage() {
           )}
         </section>
       </MainHistory>
-      <Menu />
+      <Footer />
     </ContainerHistoryPage>
   );
 }
