@@ -5,7 +5,7 @@ import AddHabit from "./AddHabit";
 import Habits from "./Habits";
 import { baseColor } from "../../constants/colors";
 import UserContext from "../../contexts/UserContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../constants/urls";
 import axios from "axios";
 import Loading from "../../components/Loading";
@@ -73,12 +73,18 @@ export default function HabitsPage() {
       );
   };
 
+  const footerRef = useRef();
+
+  function handleBackClick() {
+    footerRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <ContainerHabitsPage>
       <Header />
       <MainHabits>
         <MyHabits>
-          <h2>Meus hábitos</h2>
+          <h2 onClick={handleBackClick}>Meus hábitos</h2>
           <button
             className="btn btn-add"
             onClick={() => setAddHabit(true)}
@@ -90,7 +96,7 @@ export default function HabitsPage() {
         {renderAddHabit()}
         {renderHabits()}
       </MainHabits>
-      <Footer />
+      <Footer ref={footerRef} />
     </ContainerHabitsPage>
   );
 }
