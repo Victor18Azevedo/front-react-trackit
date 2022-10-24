@@ -29,13 +29,14 @@ export default function Habits({ habits, refreshHabits }) {
     <ContainerHabits>
       {habits.map((habit) => (
         <BoxHabit key={habit.id}>
-          <p>{habit.name}</p>
+          <p data-identifier="habit-name">{habit.name}</p>
           <WeekHabit habitDays={habit.days} />
           <StyledGarbageIcon
             onClick={() => {
               if (window.confirm("Deseja realmende apagar item?"))
                 deleteHabit(habit.id);
             }}
+            data-identifier="delete-habit-btn"
           />
         </BoxHabit>
       ))}

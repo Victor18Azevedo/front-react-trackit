@@ -76,6 +76,7 @@ export default function RegisterPage() {
           placeholder="email"
           disabled={isLoading}
           required
+          data-identifier="input-email"
         ></input>
         <input
           name="password"
@@ -85,6 +86,7 @@ export default function RegisterPage() {
           placeholder="senha"
           disabled={isLoading}
           required
+          data-identifier="input-password"
         ></input>
         <input
           name="name"
@@ -94,6 +96,7 @@ export default function RegisterPage() {
           type="text"
           disabled={isLoading}
           required
+          data-identifier="input-name"
         ></input>
         <input
           name="image"
@@ -103,12 +106,13 @@ export default function RegisterPage() {
           placeholder="foto"
           disabled={isLoading}
           required
+          data-identifier="input-photo"
         ></input>
         <button className="btn" type="submit" disabled={isLoading}>
           {renderButtonLabel()}
         </button>
       </Form>
-      <Link to="/">
+      <Link to="/" data-identifier="back-to-login-action">
         <p className="text-accent">Já tem uma conta? Faça login!</p>
       </Link>
     </ContainerRegister>

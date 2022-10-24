@@ -58,9 +58,13 @@ export default function TodayPage() {
   const renderInfo = function () {
     if (!isLoadingPage) {
       return habitsToday.length > 0 ? (
-        <p className="habits-goal">{progress}% dos hábitos concluídos</p>
+        <p className="habits-goal" data-identifier="today-infos">
+          {progress}% dos hábitos concluídos
+        </p>
       ) : (
-        <p className="habits-goal--no">Nenhum hábito concluído ainda</p>
+        <p className="habits-goal--no" data-identifier="today-infos">
+          Nenhum hábito concluído ainda
+        </p>
       );
     } else return null;
   };
@@ -78,7 +82,7 @@ export default function TodayPage() {
       <Header />
       <MainToday>
         <BoxDay>
-          <h2>
+          <h2 data-identifier="today-infos">
             {weekDayName}, {monthDay}/{month}
           </h2>
           {renderInfo()}

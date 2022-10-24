@@ -66,7 +66,7 @@ export default function HabitsPage() {
           refreshHabits={refreshHabits}
         />
       ) : (
-        <p>
+        <p data-identifier="no-habit-message">
           Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
           começar a trackear!
         </p>
@@ -79,7 +79,11 @@ export default function HabitsPage() {
       <MainHabits>
         <MyHabits>
           <h2>Meus hábitos</h2>
-          <button className="btn btn-add" onClick={() => setAddHabit(true)}>
+          <button
+            className="btn btn-add"
+            onClick={() => setAddHabit(true)}
+            data-identifier="create-habit-btn"
+          >
             +
           </button>
         </MyHabits>

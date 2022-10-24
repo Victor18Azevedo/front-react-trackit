@@ -75,6 +75,7 @@ export default function LoginPage() {
           type="email"
           disabled={isLoading}
           required
+          data-identifier="input-email"
         ></input>
         <input
           name="password"
@@ -84,12 +85,18 @@ export default function LoginPage() {
           placeholder="senha"
           disabled={isLoading}
           required
+          data-identifier="input-password"
         ></input>
-        <button className="btn" type="submit" disabled={isLoading}>
+        <button
+          className="btn"
+          type="submit"
+          disabled={isLoading}
+          data-identifier="login-btn"
+        >
           {renderButtonLabel()}
         </button>
       </Form>
-      <Link to="/cadastro">
+      <Link to="/cadastro" data-identifier="sign-up-action">
         <p className="text-accent">Não tem uma conta? Cadastre-se!</p>
       </Link>
     </ContainerLogin>

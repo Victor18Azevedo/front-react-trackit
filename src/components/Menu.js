@@ -12,7 +12,7 @@ export default function Menu() {
   return (
     <ContainerMenu>
       <div className="menu-side-itens">
-        <Link to="/habitos">
+        <Link to="/habitos" data-identifier="habit-page-action">
           <div className="item-side">Hábitos</div>
         </Link>
         <div className="item-center">
@@ -32,7 +32,7 @@ export default function Menu() {
             />
           </Link>
         </div>
-        <Link to="/historico">
+        <Link to="/historico" data-identifier="historic-page-action">
           <div className="item-side">Histórico</div>
         </Link>
       </div>
@@ -59,6 +59,7 @@ const ContainerMenu = styled.div`
     .item-side {
       font-size: 18px;
       color: ${accentColor};
+      padding: 15px;
     }
     /* TODO: position relative */
     .item-center {
@@ -66,6 +67,7 @@ const ContainerMenu = styled.div`
       height: 91px;
       text-align: center;
       transform: translate(0, -25%);
+      flex-shrink: 0;
     }
     .CircularProgressbar-text {
       font-size: 18px;

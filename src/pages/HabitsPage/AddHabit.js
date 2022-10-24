@@ -70,6 +70,7 @@ export default function AddHabit({
         type={"text"}
         placeholder="nome do hábito"
         disabled={isLoading}
+        data-identifier="input-habit-name"
       ></input>
       <Week
         habitDays={habitDays}
@@ -81,6 +82,7 @@ export default function AddHabit({
           className="btn btn-cancel"
           onClick={() => setAddHabit(false)}
           disabled={isLoading}
+          data-identifier="cancel-habit-create-btn"
         >
           Cancelar
         </button>
@@ -88,6 +90,7 @@ export default function AddHabit({
           className="btn btn-save"
           onClick={postHabit}
           disabled={isLoading}
+          data-identifier="save-habit-create-btn"
         >
           {renderButtonLabel()}
         </button>

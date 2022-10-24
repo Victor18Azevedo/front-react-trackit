@@ -44,7 +44,7 @@ export default function TodayHabit({ habit, refreshPage }) {
 
   return (
     <ContainerTodayHabit>
-      <div className="box-text">
+      <div className="box-text" data-identifier="today-infos">
         <p className="habit-name">{habit.name}</p>
         <p className="goal-text">
           Sequência atual:{" "}
@@ -57,7 +57,11 @@ export default function TodayHabit({ habit, refreshPage }) {
           <span className={checkAccent()}>{habit.highestSequence} dias</span>
         </p>
       </div>
-      <CheckBox styleIsDone={isDone} onClick={handleCheck}>
+      <CheckBox
+        styleIsDone={isDone}
+        onClick={handleCheck}
+        data-identifier="done-habit-btn"
+      >
         <StyledCheckIcon />
       </CheckBox>
     </ContainerTodayHabit>

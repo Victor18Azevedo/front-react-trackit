@@ -33,6 +33,7 @@ export default function Week({ habitDays, setHabitDays, isLoading }) {
           onClick={() => handleDay(index)}
           styleIsSelected={isSelected(index)}
           disabled={isLoading}
+          data-identifier="week-day-btn"
         >
           {day}
         </Day>

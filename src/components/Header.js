@@ -13,6 +13,7 @@ export default function Header() {
         src={userData.image}
         alt="Imagem de perfil"
         className="profile-img"
+        data-identifier="avatar"
       />
     </ContainerHeader>
   );
