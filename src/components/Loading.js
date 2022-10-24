@@ -7,7 +7,7 @@ export default function Loading() {
     <ContainerLoading>
       <div>
         <ThreeDots
-          height="70vh"
+          height="60vh"
           width="100"
           radius="10"
           color={accentColor}

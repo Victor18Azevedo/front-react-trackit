@@ -36,7 +36,6 @@ export default function HistoryPage() {
       const newProgressPerDay = calcProgress(history);
       setProgressPerDay([...newProgressPerDay]);
       habitsDays.current = newProgressPerDay.map((d) => d.day);
-      setIsLoadingPage(false);
     }
   }, [history]);
 
@@ -51,6 +50,7 @@ export default function HistoryPage() {
       .get(`${BASE_URL}/habits/history/daily`, config)
       .then((res) => {
         setHistory([...res.data]);
+        setIsLoadingPage(false);
       })
       .catch((err) => {
         alert(err.response.data);
@@ -82,7 +82,7 @@ export default function HistoryPage() {
         <div className="box-title">
           <h2>Histórico</h2>
         </div>
-        <div>
+        <section>
           {isLoadingPage ? (
             <Loading />
           ) : (
@@ -96,7 +96,7 @@ export default function HistoryPage() {
               tileClassName={tileClassName}
             />
           )}
-        </div>
+        </section>
       </MainHistory>
       <Menu />
     </ContainerHistoryPage>
@@ -119,7 +119,7 @@ const MainHistory = styled.main`
     margin: 22px 0 20px;
   }
   .calendar {
-    margin: 0 auto;
+    margin: 10vh auto 0;
     border: none;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);

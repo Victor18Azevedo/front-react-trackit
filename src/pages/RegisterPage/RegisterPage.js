@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/logo.png";
@@ -7,8 +7,9 @@ import axios from "axios";
 import { BASE_URL } from "../../constants/urls";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
-
+import UserContext from "../../contexts/UserContext";
 export default function RegisterPage() {
+  const { localUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
@@ -17,6 +18,12 @@ export default function RegisterPage() {
     image: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (localUser) {
+      navigate("/hoje");
+    }
+  }, []);
 
   function handleForm(e) {
     const { name, value } = e.target;
@@ -67,7 +74,7 @@ export default function RegisterPage() {
   return (
     <ContainerRegister>
       <img src={logo} className="logo" alt="Logo Track It" />
-      <Form onSubmit={register}>
+      <form onSubmit={register}>
         <input
           name="email"
           value={form.email}
@@ -111,7 +118,7 @@ export default function RegisterPage() {
         <button className="btn" type="submit" disabled={isLoading}>
           {renderButtonLabel()}
         </button>
-      </Form>
+      </form>
       <Link to="/" data-identifier="back-to-login-action">
         <p className="text-accent">Já tem uma conta? Faça login!</p>
       </Link>
@@ -120,16 +127,16 @@ export default function RegisterPage() {
 }
 
 const ContainerRegister = styled.main`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   max-width: 600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  gap: 25px;
   .logo {
-    margin-top: 65px;
     width: 180px;
   }
   .text-accent {
@@ -138,8 +145,4 @@ const ContainerRegister = styled.main`
     line-height: 18px;
     text-decoration: underline;
   }
-`;
-
-const Form = styled.form`
-  margin: 25px 0;
 `;

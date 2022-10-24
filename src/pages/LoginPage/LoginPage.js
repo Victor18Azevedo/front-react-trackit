@@ -66,7 +66,7 @@ export default function LoginPage() {
   return (
     <ContainerLogin>
       <img src={logo} className="logo" alt="Logo Track It" />
-      <Form onSubmit={login}>
+      <form onSubmit={login}>
         <input
           name="email"
           value={form.email}
@@ -95,7 +95,7 @@ export default function LoginPage() {
         >
           {renderButtonLabel()}
         </button>
-      </Form>
+      </form>
       <Link to="/cadastro" data-identifier="sign-up-action">
         <p className="text-accent">Não tem uma conta? Cadastre-se!</p>
       </Link>
@@ -111,9 +111,9 @@ const ContainerLogin = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  gap: 25px;
   .logo {
-    margin-top: 65px;
     width: 180px;
   }
   .text-accent {
@@ -122,8 +122,4 @@ const ContainerLogin = styled.main`
     line-height: 18px;
     text-decoration: underline;
   }
-`;
-
-const Form = styled.form`
-  margin: 25px 0;
 `;
