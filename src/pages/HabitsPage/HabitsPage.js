@@ -73,18 +73,18 @@ export default function HabitsPage() {
       );
   };
 
-  const footerRef = useRef();
-
-  function handleBackClick() {
-    footerRef.current.scrollIntoView({ behavior: "smooth" });
-  }
+  // const footerRef = useRef();
+  // function handleBackClick() {
+  //   console.log("teste");
+  //   footerRef.current.scrollIntoView({ behavior: "smooth" });
+  // }
 
   return (
     <ContainerHabitsPage>
       <Header />
       <MainHabits>
         <MyHabits>
-          <h2 onClick={handleBackClick}>Meus hábitos</h2>
+          <h2>Meus hábitos</h2>
           <button
             className="btn btn-add"
             onClick={() => setAddHabit(true)}
@@ -96,7 +96,8 @@ export default function HabitsPage() {
         {renderAddHabit()}
         {renderHabits()}
       </MainHabits>
-      <Footer ref={footerRef} />
+      <Footer />
+      {/* <Footer ref={footerRef} /> */}
     </ContainerHabitsPage>
   );
 }
