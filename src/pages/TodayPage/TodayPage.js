@@ -14,7 +14,7 @@ import Loading from "../../components/Loading";
 import "dayjs/locale/pt-br";
 
 export default function TodayPage() {
-  const { userData, localUser } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const { progress, setProgress } = useContext(ProgressContext);
   const [habitsToday, setHabitsToday] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -28,13 +28,8 @@ export default function TodayPage() {
   }, []);
 
   const refreshPage = function () {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localUser.token}`,
-      },
-    };
     axios
-      .get(`${BASE_URL}/habits/today`, config)
+      .get(`${BASE_URL}/habits/today`, userData.requestConfig)
       .then((res) => {
         setHabitsToday([...res.data]);
         refreshProgress(res.data);

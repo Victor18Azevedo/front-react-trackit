@@ -8,8 +8,9 @@ import { BASE_URL } from "../../constants/urls";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import UserContext from "../../contexts/UserContext";
+
 export default function RegisterPage() {
-  const { localUser } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
@@ -20,10 +21,10 @@ export default function RegisterPage() {
   });
 
   useEffect(() => {
-    if (localUser) {
+    if (userData.isLogged) {
       navigate("/hoje");
     }
-  }, []);
+  }, [userData]);
 
   function handleForm(e) {
     const { name, value } = e.target;

@@ -12,7 +12,7 @@ import axios from "axios";
 import Loading from "../../components/Loading";
 
 export default function HistoryPage() {
-  const { localUser } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [value, setValue] = useState(new Date());
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [history, setHistory] = useState([]);
@@ -41,13 +41,8 @@ export default function HistoryPage() {
 
   useEffect(() => {
     setIsLoadingPage(true);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localUser.token}`,
-      },
-    };
     axios
-      .get(`${BASE_URL}/habits/history/daily`, config)
+      .get(`${BASE_URL}/habits/history/daily`, userData.requestConfig)
       .then((res) => {
         setHistory([...res.data]);
         setIsLoadingPage(false);

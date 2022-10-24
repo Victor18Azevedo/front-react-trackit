@@ -10,13 +10,8 @@ export default function Habits({ habits, refreshHabits }) {
   const { userData } = useContext(UserContext);
 
   const deleteHabit = function (id) {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`,
-      },
-    };
     axios
-      .delete(`${BASE_URL}/habits/${id}`, config)
+      .delete(`${BASE_URL}/habits/${id}`, userData.requestConfig)
       .then((res) => {
         refreshHabits();
       })

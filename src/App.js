@@ -10,28 +10,29 @@ import UserContext from "./contexts/UserContext";
 import ProgressContext from "./contexts/ProgressContext";
 
 function App() {
-  const [userData, setUserData] = useState({
-    id: "",
-    name: "",
-    image: "",
-    email: "",
-    password: "",
-    token: "",
-  });
-  const [progress, setProgress] = useState(0);
-
   const localUser = JSON.parse(localStorage.getItem("localUser"));
+
+  const [userData, setUserData] = useState({
+    requestConfig: localUser ? { ...localUser.requestConfig } : undefined,
+    isLogged: false,
+  });
 
   useEffect(() => {
     if (localUser) {
-      setUserData(localUser);
+      setUserData({
+        ...localUser,
+      });
     }
   }, []);
+
+  const [progress, setProgress] = useState(0);
+
+  console.log("App");
 
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <UserContext.Provider value={{ userData, setUserData, localUser }}>
+      <UserContext.Provider value={{ userData, setUserData }}>
         <ProgressContext.Provider value={{ progress, setProgress }}>
           <Routes>
             <Route path="/" element={<LoginPage />} />;

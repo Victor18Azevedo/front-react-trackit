@@ -13,26 +13,21 @@ export default function TodayHabit({ habit, refreshPage }) {
   const handleCheck = function () {
     setIsDone(!habit.done);
     const body = {};
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`,
-      },
-    };
     const URL = `${BASE_URL}/habits/${habit.id}/${
       habit.done ? "uncheck" : "check"
     }`;
     axios
-      .post(URL, body, config)
+      .post(URL, body, userData.requestConfig)
       .then((res) => {
         refreshPage();
-        // console.log(res);
       })
       .catch((err) => {
         alert(err.response.data.message);
+        console.log(err.response.data);
       });
   };
 
-  const checkAccent = function () {
+  const checkRecordAccent = function () {
     if (
       (habit.highestSequence !== 0) &
       (habit.currentSequence === habit.highestSequence)
@@ -54,7 +49,9 @@ export default function TodayHabit({ habit, refreshPage }) {
         </p>
         <p className="goal-text">
           Seu recorde:{" "}
-          <span className={checkAccent()}>{habit.highestSequence} dias</span>
+          <span className={checkRecordAccent()}>
+            {habit.highestSequence} dias
+          </span>
         </p>
       </div>
       <CheckBox

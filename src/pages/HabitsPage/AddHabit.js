@@ -23,14 +23,9 @@ export default function AddHabit({
       name: habitText,
       days: habitDays,
     };
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`,
-      },
-    };
     setIsLoading(true);
     axios
-      .post(`${BASE_URL}/habits`, body, config)
+      .post(`${BASE_URL}/habits`, body, userData.requestConfig)
       .then((res) => {
         setHabitText("");
         setHabitDays([]);

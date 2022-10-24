@@ -9,7 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 import UserContext from "../../contexts/UserContext";
 
 export default function LoginPage() {
-  const { localUser, setUserData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
@@ -17,10 +17,10 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localUser) {
+    if (userData.isLogged) {
       navigate("/hoje");
     }
-  }, []);
+  }, [userData]);
 
   function handleForm(e) {
     const { name, value } = e.target;
@@ -34,11 +34,21 @@ export default function LoginPage() {
     axios
       .post(`${BASE_URL}/auth/login`, body)
       .then((res) => {
-        setUserData({ ...res.data });
-        localStorage.setItem("localUser", JSON.stringify(res.data));
+        const respData = {
+          id: res.data.id,
+          name: res.data.name,
+          image: res.data.image,
+          requestConfig: {
+            headers: {
+              Authorization: `Bearer ${res.data.token}`,
+            },
+          },
+          isLogged: true,
+        };
+        setUserData(respData);
+        localStorage.setItem("localUser", JSON.stringify(respData));
         setForm({ email: "", password: "" });
         setIsLoading(false);
-        navigate("/hoje");
       })
       .catch((err) => {
         alert(err.response.data.message);

@@ -11,7 +11,7 @@ import axios from "axios";
 import Loading from "../../components/Loading";
 
 export default function HabitsPage() {
-  const { userData, setUserData, localUser } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [habits, setHabits] = useState([]);
   const [addHabit, setAddHabit] = useState(false);
 
@@ -25,19 +25,14 @@ export default function HabitsPage() {
   }, []);
 
   const refreshHabits = function () {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localUser.token}`,
-      },
-    };
     axios
-      .get(`${BASE_URL}/habits`, config)
+      .get(`${BASE_URL}/habits`, userData.requestConfig)
       .then((res) => {
         setHabits([...res.data]);
         setIsLoadingPage(false);
       })
       .catch((err) => {
-        alert(err.response.data);
+        alert(err.response.data.message);
         console.log(err.response);
       });
   };
@@ -72,12 +67,6 @@ export default function HabitsPage() {
         </p>
       );
   };
-
-  // const footerRef = useRef();
-  // function handleBackClick() {
-  //   console.log("teste");
-  //   footerRef.current.scrollIntoView({ behavior: "smooth" });
-  // }
 
   return (
     <ContainerHabitsPage>
