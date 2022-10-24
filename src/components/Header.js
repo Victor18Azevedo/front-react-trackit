@@ -8,11 +8,11 @@ export default function Header() {
   const { userData } = useContext(UserContext);
   return (
     <ContainerHeader>
-      <img src={logo} className="logo" alt="logo Track It" />
+      <img src={logo} className="logo" alt="Logo Track It" />
       <img
         src={userData.image}
         alt="Imagem de perfil"
-        className="profile-img"
+        className="profile-avatar"
         data-identifier="avatar"
       />
     </ContainerHeader>
@@ -33,10 +33,14 @@ const ContainerHeader = styled.header`
   top: 0;
   left: 0;
   z-index: 1;
+  img {
+    color: #fff;
+    font-size: 12px;
+  }
   .logo {
     height: 28px;
   }
-  .profile-img {
+  .profile-avatar {
     object-fit: cover;
     border-radius: 50%;
     height: 51px;
