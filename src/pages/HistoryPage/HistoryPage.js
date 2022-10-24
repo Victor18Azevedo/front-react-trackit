@@ -104,15 +104,17 @@ export default function HistoryPage() {
 }
 
 const ContainerHistoryPage = styled.div`
-  position: relative;
   max-width: 600px;
+  height: 100vh;
   margin: 0 auto;
+  position: relative;
 `;
 
 const MainHistory = styled.main`
-  min-height: 100vh;
-  padding: 70px 19px;
+  height: 100vh;
   background-color: ${baseColor};
+  padding: 70px 19px 95px;
+  overflow-y: auto;
   .box-title {
     margin: 22px 0 20px;
   }
@@ -120,7 +122,8 @@ const MainHistory = styled.main`
     margin: 0 auto;
     border: none;
     border-radius: 10px;
-    box-shadow: 0 5px 10px #333;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    /* box-shadow: 0 5px 10px #333; */
   }
   .complete {
     background-color: #8cc654;

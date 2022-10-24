@@ -55,6 +55,8 @@ const BoxHabit = styled.div`
   border-radius: 5px;
   position: relative;
   word-wrap: break-word;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+
   p {
     padding-right: 30px;
     margin-bottom: 8px;

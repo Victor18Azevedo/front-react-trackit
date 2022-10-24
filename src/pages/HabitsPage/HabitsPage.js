@@ -92,15 +92,17 @@ export default function HabitsPage() {
 }
 
 const ContainerHabitsPage = styled.div`
-  position: relative;
   max-width: 600px;
+  height: 100vh;
   margin: 0 auto;
+  position: relative;
 `;
 
 const MainHabits = styled.main`
-  min-height: 100vh;
-  padding: 70px 19px;
+  height: 100vh;
   background-color: ${baseColor};
+  padding: 70px 19px 95px;
+  overflow-y: auto;
 `;
 
 const MyHabits = styled.div`

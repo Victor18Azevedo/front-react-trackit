@@ -11,6 +11,7 @@ import ProgressContext from "../../contexts/ProgressContext";
 import dayjs from "dayjs";
 import { WEEK_DAYS_NAME } from "../../constants/weekDays";
 import Loading from "../../components/Loading";
+import "dayjs/locale/pt-br";
 
 export default function TodayPage() {
   const { userData, localUser } = useContext(UserContext);
@@ -18,7 +19,7 @@ export default function TodayPage() {
   const [habitsToday, setHabitsToday] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-  const weekDayName = WEEK_DAYS_NAME[dayjs().day()];
+  const weekDayName = dayjs().locale("pt-br").format("dddd");
   const monthDay = dayjs().date();
   const month = dayjs().month() + 1;
 
@@ -90,15 +91,20 @@ export default function TodayPage() {
 }
 
 const ContainerTodayPage = styled.div`
-  position: relative;
   max-width: 600px;
+  height: 100vh;
   margin: 0 auto;
+  position: relative;
 `;
 
 const MainToday = styled.main`
-  min-height: 100vh;
-  padding: 70px 19px;
+  height: 100vh;
   background-color: ${baseColor};
+  padding: 70px 19px 95px;
+  overflow-y: auto;
+  h2 {
+    text-transform: capitalize;
+  }
 `;
 
 const BoxDay = styled.div`

@@ -15,8 +15,8 @@ export default function Menu() {
         <Link to="/habitos">
           <div className="item-side">Hábitos</div>
         </Link>
-        <Link to="/hoje">
-          <div className="item-center">
+        <div className="item-center">
+          <Link to="/hoje">
             <CircularProgressbar
               value={progress}
               text={`Hoje`}
@@ -30,8 +30,8 @@ export default function Menu() {
                 trailColor: "transparent",
               })}
             />
-          </div>
-        </Link>
+          </Link>
+        </div>
         <Link to="/historico">
           <div className="item-side">Histórico</div>
         </Link>
@@ -47,6 +47,7 @@ const ContainerMenu = styled.div`
   background-color: #fff;
   padding: 0 36px;
   position: absolute;
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
   bottom: 0;
   left: 0;
   z-index: 1;
@@ -59,6 +60,7 @@ const ContainerMenu = styled.div`
       font-size: 18px;
       color: ${accentColor};
     }
+    /* TODO: position relative */
     .item-center {
       width: 91px;
       height: 91px;
