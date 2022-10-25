@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/logo.png";
-import { accentColor } from "../../constants/colors";
+import { accentColor, textColor } from "../../constants/colors";
 import axios from "axios";
 import { BASE_URL } from "../../constants/urls";
 import { ThreeDots } from "react-loader-spinner";
@@ -10,9 +10,12 @@ import UserContext from "../../contexts/UserContext";
 
 export default function LoginPage() {
   const { userData, setUserData } = useContext(UserContext);
-
   const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+  const [checkKeepSignedInIn, setCheckKeepSignedInIn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,6 +29,10 @@ export default function LoginPage() {
   function handleForm(e) {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+  }
+
+  function handleCheck() {
+    setCheckKeepSignedInIn(!checkKeepSignedInIn);
   }
 
   function login(e) {
@@ -46,9 +53,11 @@ export default function LoginPage() {
           },
         };
         setUserData(respData);
-        localStorage.setItem("localUser", JSON.stringify(respData));
         setForm({ email: "", password: "" });
         setIsLoading(false);
+        if (checkKeepSignedInIn)
+          localStorage.setItem("localUser", JSON.stringify(respData));
+        else navigate("/hoje");
       })
       .catch((err) => {
         alert(err.response.data.message);
@@ -105,6 +114,17 @@ export default function LoginPage() {
         >
           {renderButtonLabel()}
         </button>
+        <label htmlFor="keepSignedInIn">
+          <input
+            className="checkbox"
+            name="keepSignedInIn"
+            id="keepSignedInIn"
+            type="checkbox"
+            checked={checkKeepSignedInIn}
+            onChange={handleCheck}
+          ></input>
+          Manter Conectado
+        </label>
       </form>
       <Link to="/cadastro" data-identifier="sign-up-action">
         <p className="text-accent">Não tem uma conta? Cadastre-se!</p>
@@ -131,5 +151,23 @@ const ContainerLogin = styled.main`
     font-size: 14px;
     line-height: 18px;
     text-decoration: underline;
+  }
+  label {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: ${accentColor};
+    border-radius: 50%;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+  }
+  .checkbox:checked {
   }
 `;

@@ -48,7 +48,7 @@ export default function TodayPage() {
   };
   useEffect(() => {
     console.log("TodayPage");
-    if (!localStorage.getItem("localUser")) {
+    if (!userData?.id) {
       navigate("/");
     } else refreshPage();
   }, []);
@@ -91,9 +91,9 @@ export default function TodayPage() {
   };
 
   return (
-    <ContainerTodayPage>
+    <ContainerTodayPage styleIsLoadingList={isLoadingList}>
       <Header />
-      <MainToday styleIsLoadingList={isLoadingList}>
+      <MainToday>
         <TopToday>
           <h2 data-identifier="today-infos">
             {weekDayName}, {monthDay}/{month}
@@ -112,6 +112,8 @@ const ContainerTodayPage = styled.div`
   height: 100vh;
   margin: 0 auto;
   position: relative;
+  opacity: ${(props) => (props.styleIsLoadingList ? "0.5" : "1")};
+  transition: all 400ms ease-in-out;
 `;
 
 const MainToday = styled.main`
@@ -119,8 +121,6 @@ const MainToday = styled.main`
   background-color: ${baseColor};
   padding: 70px 19px 95px;
   overflow-y: auto;
-  opacity: ${(props) => (props.styleIsLoadingList ? "0.5" : "1")};
-  transition: all 400ms ease-in-out;
   h2 {
     text-transform: capitalize;
   }

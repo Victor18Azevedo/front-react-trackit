@@ -26,7 +26,7 @@ export default function HabitsPage() {
 
   useEffect(() => {
     console.log("HabitsPage");
-    if (!localStorage.getItem("localUser")) {
+    if (!userData?.id) {
       navigate("/");
     } else refreshHabits();
   }, []);

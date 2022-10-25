@@ -36,7 +36,7 @@ export default function HistoryPage() {
 
   useEffect(() => {
     console.log("HistoryPage");
-    if (!localStorage.getItem("localUser")) {
+    if (!userData?.id) {
       navigate("/");
       console.log("navigate ative");
     } else {
