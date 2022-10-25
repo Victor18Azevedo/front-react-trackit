@@ -87,7 +87,6 @@ export default function HabitsPage() {
         {renderHabitsCards()}
       </MainHabits>
       <Footer />
-      {/* <Footer ref={footerRef} /> */}
     </ContainerHabitsPage>
   );
 }

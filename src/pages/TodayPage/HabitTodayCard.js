@@ -10,25 +10,33 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-export default function HabitTodayCard({ habit, refreshPage }) {
+export default function HabitTodayCard({
+  habit,
+  refreshPage,
+  isLoadingList,
+  setIsLoadingList,
+}) {
   const { userData } = useContext(UserContext);
   const [isDone, setIsDone] = useState(habit.done);
 
   const handleCheck = function () {
-    setIsDone(!habit.done);
-    const body = {};
-    const URL = `${BASE_URL}/habits/${habit.id}/${
-      habit.done ? "uncheck" : "check"
-    }`;
-    axios
-      .post(URL, body, userData.requestConfig)
-      .then((res) => {
-        refreshPage();
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response.data);
-      });
+    if (!isLoadingList) {
+      setIsLoadingList(true);
+      setIsDone(!habit.done);
+      const body = {};
+      const URL = `${BASE_URL}/habits/${habit.id}/${
+        habit.done ? "uncheck" : "check"
+      }`;
+      axios
+        .post(URL, body, userData.requestConfig)
+        .then((res) => {
+          refreshPage();
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+          console.log(err.response.data);
+        });
+    }
   };
 
   const checkSequenceAccent = function () {
@@ -62,6 +70,7 @@ export default function HabitTodayCard({ habit, refreshPage }) {
         styleIsDone={isDone}
         onClick={handleCheck}
         data-identifier="done-habit-btn"
+        disabled={isLoadingList}
       >
         <StyledCheckIcon />
       </CheckBox>

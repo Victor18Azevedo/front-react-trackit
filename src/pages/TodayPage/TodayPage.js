@@ -21,6 +21,7 @@ export default function TodayPage() {
   const { progress, setProgress } = useContext(ProgressContext);
   const [habitsTodayList, setHabitsTodayList] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
+  const [isLoadingList, setIsLoadingList] = useState(false);
 
   const weekDayName = dayjs().locale("pt-br").format("dddd").split("-")[0];
   const monthDay = dayjs().date();
@@ -37,10 +38,13 @@ export default function TodayPage() {
         setHabitsTodayList([...res.data]);
         refreshProgress(res.data);
         setIsLoadingPage(false);
+        setIsLoadingList(false);
       })
       .catch((err) => {
         alert(err.response.data.message);
+        setIsLoadingList(false);
         console.log(err.response.data);
+        console.log(false);
       });
   };
 
@@ -71,14 +75,20 @@ export default function TodayPage() {
     if (isLoadingPage) return <Loading />;
     else
       return habitsTodayList.map((h) => (
-        <HabitTodayCard key={h.id} habit={h} refreshPage={refreshPage} />
+        <HabitTodayCard
+          key={h.id}
+          habit={h}
+          refreshPage={refreshPage}
+          isLoadingList={isLoadingList}
+          setIsLoadingList={setIsLoadingList}
+        />
       ));
   };
 
   return (
     <ContainerTodayPage>
       <Header />
-      <MainToday>
+      <MainToday styleIsLoadingList={isLoadingList}>
         <TopToday>
           <h2 data-identifier="today-infos">
             {weekDayName}, {monthDay}/{month}
@@ -104,6 +114,8 @@ const MainToday = styled.main`
   background-color: ${baseColor};
   padding: 70px 19px 95px;
   overflow-y: auto;
+  opacity: ${(props) => (props.styleIsLoadingList ? "0.4" : "1")};
+  transition: opacity 250ms ease 250ms;
   h2 {
     text-transform: capitalize;
   }
