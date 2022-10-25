@@ -21,7 +21,7 @@ export default function RegisterPage() {
   });
 
   useEffect(() => {
-    if (userData.isLogged) {
+    if (localStorage.getItem("localUser")) {
       navigate("/hoje");
     }
   }, [userData]);

@@ -14,11 +14,11 @@ function App() {
 
   const [userData, setUserData] = useState({
     requestConfig: localUser ? { ...localUser.requestConfig } : undefined,
-    isLogged: false,
   });
 
   useEffect(() => {
-    if (!userData.isLogged) {
+    console.log("App");
+    if (localUser) {
       setUserData({
         ...localUser,
       });

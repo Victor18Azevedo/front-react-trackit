@@ -17,7 +17,8 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData.isLogged) {
+    console.log("LoginPage");
+    if (localStorage.getItem("localUser")) {
       navigate("/hoje");
     }
   }, [userData]);
@@ -43,7 +44,6 @@ export default function LoginPage() {
               Authorization: `Bearer ${res.data.token}`,
             },
           },
-          isLogged: true,
         };
         setUserData(respData);
         localStorage.setItem("localUser", JSON.stringify(respData));

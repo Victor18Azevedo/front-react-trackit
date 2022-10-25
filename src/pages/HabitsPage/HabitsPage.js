@@ -9,9 +9,13 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../constants/urls";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 
 export default function HabitsPage() {
   const { userData } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [habitsList, setHabitsList] = useState([]);
   const [createHabit, setCreateHabit] = useState(false);
 
@@ -21,7 +25,10 @@ export default function HabitsPage() {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
 
   useEffect(() => {
-    refreshHabits();
+    console.log("HabitsPage");
+    if (!localStorage.getItem("localUser")) {
+      navigate("/");
+    } else refreshHabits();
   }, []);
 
   const refreshHabits = function () {

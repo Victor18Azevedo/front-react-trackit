@@ -15,9 +15,12 @@ import axios from "axios";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import "dayjs/locale/pt-br";
+import { useNavigate } from "react-router-dom";
 
 export default function TodayPage() {
   const { userData } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const { progress, setProgress } = useContext(ProgressContext);
   const [habitsTodayList, setHabitsTodayList] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -26,10 +29,6 @@ export default function TodayPage() {
   const weekDayName = dayjs().locale("pt-br").format("dddd").split("-")[0];
   const monthDay = dayjs().date();
   const month = dayjs().month() + 1;
-
-  useEffect(() => {
-    refreshPage();
-  }, []);
 
   const refreshPage = function () {
     axios
@@ -47,6 +46,12 @@ export default function TodayPage() {
         console.log(false);
       });
   };
+  useEffect(() => {
+    console.log("TodayPage");
+    if (!localStorage.getItem("localUser")) {
+      navigate("/");
+    } else refreshPage();
+  }, []);
 
   const refreshProgress = function (habits) {
     const habitsDone = habits.filter((h) => h.done).length;
@@ -114,8 +119,8 @@ const MainToday = styled.main`
   background-color: ${baseColor};
   padding: 70px 19px 95px;
   overflow-y: auto;
-  opacity: ${(props) => (props.styleIsLoadingList ? "0.4" : "1")};
-  transition: opacity 250ms ease 250ms;
+  opacity: ${(props) => (props.styleIsLoadingList ? "0.5" : "1")};
+  transition: all 400ms ease-in-out;
   h2 {
     text-transform: capitalize;
   }

@@ -10,9 +10,12 @@ import UserContext from "../../contexts/UserContext";
 import { BASE_URL } from "../../constants/urls";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 export default function HistoryPage() {
   const { userData } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [value, setValue] = useState(new Date());
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [history, setHistory] = useState([]);
@@ -32,17 +35,24 @@ export default function HistoryPage() {
   };
 
   useEffect(() => {
-    setIsLoadingPage(true);
-    axios
-      .get(`${BASE_URL}/habits/history/daily`, userData.requestConfig)
-      .then((res) => {
-        setHistory([...res.data]);
-        setIsLoadingPage(false);
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response);
-      });
+    console.log("HistoryPage");
+    if (!localStorage.getItem("localUser")) {
+      navigate("/");
+      console.log("navigate ative");
+    } else {
+      setIsLoadingPage(true);
+      axios
+        .get(`${BASE_URL}/habits/history/daily`, userData.requestConfig)
+        .then((res) => {
+          setHistory([...res.data]);
+          setIsLoadingPage(false);
+          console.log("recebido");
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+          console.log(err.response);
+        });
+    }
   }, []);
 
   useEffect(() => {
